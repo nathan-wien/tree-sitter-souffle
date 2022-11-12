@@ -1,0 +1,17 @@
+{
+  "name": "tree-sitter-scala3",
+  "version": "0.0.1",
+  "description": "Treesitter Parser for Souffle",
+  "main": "bindings/node",
+  "scripts": {
+    "generate": "tree-sitter generate"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.17.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.7"
+  }
+}

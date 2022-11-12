@@ -1,0 +1,13 @@
+====================================
+Input directive
+====================================
+
+.input edge
+
+---
+
+(source_file
+  (directive
+    (directive_qualifier)
+    (qualified_name
+      (identifier))))
