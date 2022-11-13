@@ -1664,6 +1664,10 @@
     "named": true
   },
   {
+    "type": "COMMENT",
+    "named": true
+  },
+  {
     "type": "COMPONENT",
     "named": true
   },

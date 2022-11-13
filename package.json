@@ -2,7 +2,7 @@
   "name": "tree-sitter-souffle",
   "version": "1.0.0",
   "description": "souffle language",
-  "main": "index.js",
+  "main": "bindings/node",
   "scripts": {
     "compile": "tree-sitter generate",
     "pretest": "npm run compile",
@@ -13,12 +13,12 @@
   "repository": "https://github.com/julienhenry/tree-sitter-souffle",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0",
+    "nan": "^2.17.0",
     "process": "^0.11.10",
     "xwasm": "0.0.2-beta"
   },
   "devDependencies": {
-    "tree-sitter": "0.16.1",
-    "tree-sitter-cli": "^0.16.5"
+    "tree-sitter": "0.20.1",
+    "tree-sitter-cli": "^0.20.7"
   }
 }
