@@ -1,0 +1,45 @@
+====================================
+single relation_name
+====================================
+
+.decl Friendship(person_a: string, person_b: string)
+
+---
+
+(source_file
+  (relation_decl
+    relation_name: (identifier)
+    (attribute
+      (attribute_name)
+      (type_name
+        (user_defined_type
+          (identifier))))
+    (attribute
+      (attribute_name)
+      (type_name
+        (user_defined_type
+          (identifier))))))
+
+
+====================================
+multiple relation_name
+====================================
+
+.decl Love, Hate(person_a: string, person_b: string)
+
+---
+
+(source_file
+  (relation_decl
+    relation_name: (identifier)
+    relation_name: (identifier)
+    (attribute
+      (attribute_name)
+      (type_name
+        (user_defined_type
+          (identifier))))
+    (attribute
+      (attribute_name)
+      (type_name
+        (user_defined_type
+          (identifier))))))

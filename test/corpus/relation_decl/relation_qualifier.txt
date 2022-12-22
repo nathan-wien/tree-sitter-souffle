@@ -1,0 +1,42 @@
+====================================
+single relation_qualifier
+====================================
+
+.decl Greater(x: number, y: number) btree
+
+---
+
+(source_file
+  (relation_decl
+    relation_name: (identifier)
+    (attribute
+      (attribute_name)
+      (type_name
+        (primitive_type)))
+    (attribute
+      (attribute_name)
+      (type_name
+        (primitive_type)))
+    (relation_qualifier)))
+
+
+====================================
+multiple relation_qualifier
+====================================
+
+.decl Greater(x: number, y: number) btree
+
+---
+
+(source_file
+  (relation_decl
+    relation_name: (identifier)
+    (attribute
+      (attribute_name)
+      (type_name
+        (primitive_type)))
+    (attribute
+      (attribute_name)
+      (type_name
+        (primitive_type)))
+    (relation_qualifier)))

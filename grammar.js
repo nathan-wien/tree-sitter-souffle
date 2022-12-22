@@ -7,24 +7,43 @@ module.exports = grammar({
         $.directive,
         $.relation_decl,
         $.rule,
+        $.fact,
+        $.type_decl,
     ),
     relation_decl: $ => seq(
         ".decl",
-        field("relation_name", $.identifier),
+        field("relation_name", commaSep1($.identifier)),
         "(",
         commaSep1($.attribute),
         ")",
+        repeat($.relation_qualifier),
         optional($.choice_domain)
     ),
-    choice_domain: _ => seq(
-        "choice-domain"
-        // TODO: $.choice_domain_attributes
+    relation_qualifier: _ => choice(
+        "eqrel",
+        "btree",
+        "brie",
+        "no_magic",
+        "magic",
+        "no_inline",
+        "inline",
+        "override"
     ),
-    // choice_domain_attributes: _ => seq(
-    //     // TODO
-    // ),
+    choice_domain: $ => seq(
+        "choice-domain",
+        commaSep1($.choice_domain_attribute)
+    ),
+    choice_domain_attribute: $ => choice(
+        alias($.identifier, $.choice_domain_single_attribute),
+        $.choice_domain_tuple_attribute,
+    ),
+    choice_domain_tuple_attribute: $ => seq(
+        "(",
+        commaSep1($.identifier),
+        ")"
+    ),
     rule: $ => seq(
-        commaSep1($.atom),
+        field('rule_name', commaSep1($.atom)),
         ":-",
         $.disjunction,
         '.',
@@ -59,12 +78,6 @@ module.exports = grammar({
         ".plan",
         // TODO
     ),
-    atom: $ => seq(
-        $.qualified_name,
-        "(",
-        commaSep1($.argument),
-        ")",
-    ),
     directive: $ => seq(
         $.directive_qualifier,
         commaSep1($.qualified_name),
@@ -86,7 +99,7 @@ module.exports = grammar({
         field("directive_value", $.directive_value)
     ),
     directive_value: $ => choice(
-        $.string,
+        $.string_literal,
         $.identifier,
         $.boolean_literal
     ),
@@ -99,17 +112,53 @@ module.exports = grammar({
         "_"
     ),
     attribute: $ => seq(
-        field("attribute_name", $.identifier),
+        alias($.identifier, $.attribute_name),
         ":",
-        field("type_name", $.identifier)
+        $.type_name
     ),
-    string: $ => seq(
-        '"',
-        $._string_content,
-        '"',
+    fact: $ => seq(
+        $.atom,
+        "."
+    ),
+    type_decl: $ => seq(
+        ".type",
+        field("type_ref", $.identifier),
+        choice(
+            $.subtype_decl,
+            $.equivalence_type_decl,
+        )
+    ),
+    subtype_decl: $ => seq("<:", $.type_name),
+    equivalence_type_decl: $ => seq("=",
+        choice(
+            $.union_type_decl,
+            $.type_name,
+            // TODO
+            // $.record_list,
+            // sep1($.adt_branch, "|")
+        )
+    ),
+    union_type_decl: $ => prec(2, sep2($.type_name, "|")),
+    type_name: $ => choice(
+        $.primitive_type,
+        alias($.qualified_name, $.user_defined_type)
+    ),
+    primitive_type: _ => choice(
+        "number",
+        "symbol",
+        "unsigned",
+        "float",
+    ),
+    atom: $ => seq(
+        $.qualified_name,
+        "(",
+        commaSep1($.argument),
+        ")",
     ),
     boolean_literal: _ => choice("true", "false"),
-    _string_content: _ => /[\s\d\w]+/,
+    string_literal: _ => token(
+      seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
+    ),
     identifier: _ => /[a-zA-Z_][a-zA-Z0-9_]*/,
     number: _ => /\d+/,
   },
@@ -117,6 +166,10 @@ module.exports = grammar({
 
 function commaSep1(rule) {
   return sep1(rule, ",")
+}
+
+function sep2(rule, separator) {
+  return seq(rule, separator, rule, repeat(seq(separator, rule)))
 }
 
 function sep1(rule, separator) {

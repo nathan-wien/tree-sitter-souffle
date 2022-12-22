@@ -1,0 +1,14 @@
+====================================
+simple
+====================================
+
+.type myEvenNumber <: number
+
+---
+
+(source_file
+  (type_decl
+    (identifier)
+    (subtype_decl
+      (type_name
+        (primitive_type)))))

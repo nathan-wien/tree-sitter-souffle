@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-scala3",
+  "name": "tree-sitter-souffle",
   "version": "0.0.1",
   "description": "Treesitter Parser for Souffle",
   "main": "bindings/node",
